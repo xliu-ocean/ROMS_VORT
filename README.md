@@ -2,29 +2,31 @@
 
 ## About ROMS_VORT
 
-The ROMS_VORT is a package that calculates the vorticity budget equations by using the ROMS diagnostic u/v and averging outputs. There are **three** different forms of vorticity budget equations, the 2D depth-averaged vorticity equation (vort_2d), the 2D transport vorticity equation (vort_2dtrans), and the 3D depth-dependent vorticity equation (vort_3d). The detailed derivation can be found in Liu et al. (2020).  
+The ROMS_VORT is a package that calculates the vorticity budget equations by using the ROMS diagnostic u/v and averging outputs. There are **three** different forms of vorticity budget equations, the 2D depth-averaged vorticity equation (vort_2d), the 2D transport vorticity equation (vort_2dtrans), and the 3D depth-dependent vorticity equation (vort_3d). The detailed derivation of these forms can be found in Liu et al. (2020).  
 
-Since the variables in ROMS are located at the s-coordinate points, the horizontal derivation is a little more complicated than that using z-coordinate. 
+Since the ROMS model takes terrain-following s-coordinate as its vertical coordinate, it's more difficult to calculate the horizontal differentiation of variables at the s-coordinate points than that using z-coordinate. In this package, we compute the terms of the vorticity equation by using the diagnostic output data of the 2D/3D momentum equations, which have been built in the ROMS model. 
 
-### 1. vort_2d
+The package computes each term of the 3 vorticity equations by using the diagnostic data (after you set the CPP "h file" and input "in file" options).
 
-The Equation of 2D depth-averaged vorticity equation can be written as 
+### 1. vort_2d (2D depth-averaged vorticity equation)
+
+The 2D depth-averaged vorticity equation can be derived by taking curl on the 2D depth-averaged momentum equations and can be written as 
 
 ![](https://latex.codecogs.com/png.latex?\\underbrace{\frac{\partial\overline{\zeta}}{\partial{t}}}_{I}+\underbrace{\mathbf{U}\cdot\nabla(\frac{f}{D})}_{II}+\underbrace{\mathbf{U}\cdot\nabla(\frac{\overline{\zeta}}{D})}_{III}=\underbrace{J(\chi,D^{-1})}_{IV}+\underbrace{\nabla\times(\frac{\boldsymbol{\tau}_s}{D})}_{V}\underbrace{-\nabla\times(\frac{\boldsymbol{\tau}_b}{D})}_{VI})
 
 Terms in the equation are (I) accelaration term (**acce_curl_2d**), (II) advection of background PV (**adv_bPV**), (III) advection of relative PV (**adv_rPV**), (IV) Joint effects of baroclinicity and relief (**JEBAR**), (V) curl of surface stress (**curl_Ts**) and (VI) curl of bottom stress (**curl_Tb**). 
 
-### 2. vort_2dtrans
+### 2. vort_2dtrans (2D depth-integrated transport vorticity equation)
 
-The 2D transport vorticity equation can be written as 
+The 2D transport vorticity equation is the transport form of the depth-averaged vorticity equation and can be written as 
 
 ![](https://latex.codecogs.com/png.latex?\\underbrace{\frac{\partial{\overline{\zeta}}D}{\partial{t}}}_{I}+\underbrace{\nabla\times(D\mathbf{\overline{adv}})}_{II}=\underbrace{\nabla\times(\boldsymbol{\tau}_s-\boldsymbol{\tau}_b)}_{III}+\underbrace{\frac{1}{\rho_0}J(p_b,D)}_{IV})
 
 Terms in the equation are (I) accelaration term (**acce_curl_2dtrans**), (II) curl of the transport advection term (**hadv_2dtrans**), (III) curl of the stress terms (**curlTs_2dtrans and curlTb_2dtrans**), (IV) bottom pressure torque term (**BPT**). The expression J stands for Jaccobian operator. 
 
-### 3. vort_3d
+### 3. vort_3d (3D depth-dependent vorticity equation)
 
-The 3D depth-dependent vorticity can be written as 
+The 3D depth-dependent vorticity is obtained by taking curl directly on the 3D momentum equations. It can be written as 
 
 ![](https://latex.codecogs.com/png.latex?\\underbrace{\frac{\partial{\zeta}}{\partial{t}}}_{I}+\underbrace{\nabla\times(\mathbf{adv})}_{II}\underbrace{-f\frac{\partial{w}}{\partial{z}}}_{III}=\underbrace{\nabla\times(\mathbf{visc})}_{IV})
 
