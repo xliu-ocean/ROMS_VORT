@@ -32,7 +32,28 @@ The 3D depth-dependent vorticity is obtained by taking curl directly on the 3D m
 
 Terms in the equation are (I) accelaration term (**acce_curl_3d**), (II) **nonlinear** term , (III) **divergence** term, and (IV) **viscous stress** term. 
 
-## Tutorial for built-in test cases of ROMS
+## Tutorial of the ROMS_VORT package for a built-in test case in ROMS (canyon3d)
+
+### 1. Idealized canyon case (3d)
+
+The idealized canyon case is an idealized test of the interaction between topography and a near-steady current. This case is a suitable case to test the vorticity budget. 
+
+(1) You should first run the idealized canyon (3d) with the following steps:
+
+####  (1) Download and install ROMS 
+step by step with the tutorial [ROMS_UNSW2008](https://www.myroms.org/wiki/ROMS_UNSW2008). After running the upwelling case by following the tutorial, the results will be saved as netcdf files.
+
+You can also simply download the nc files we have obtained at [upwelling results](https://figshare.com/account/projects/81329/articles/12375272).
+
+(2) Download the ROMS_VORT package at [github](https://github.com/rayliuxh/pv_balance.git) by run the script 
+`git clone https://github.com/rayliuxh/pv_balance.git pv_balance` 
+or download directly.
+
+(3) There are 2 Matlab scripts in the ROMS_VORT folder. Run `get_circu_pattern_pub.m` to load the ocean state variables and make some plots. Run `get_pv_conservation_pub.m` to calculate the **three** different forms of the vorticity equations and do some plots. The detailed information of the variables in the script can be found in the above description.  
+
+
+
+(1) 
 
 ### 1. Upwelling case
 
