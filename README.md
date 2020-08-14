@@ -51,6 +51,7 @@ download and compile the code step by step following the tutorial [ROMS_UNSW2008
 You may want to change "upwelling" to "canyon" at the following lines in the **build.bash** file:
 
 `export ROMS_APPLICATION=canyon`
+
 `export MY_PROJECT_DIR=${HOME}/Projects/canyon`
 
 ##### (b) Run the canyon3d case 
@@ -58,12 +59,15 @@ You may want to change "upwelling" to "canyon" at the following lines in the **b
 You may want to copy roms_canyon3d.in and canyon.h to "canyon" directory by :
 
 `cp /srv/ckpt/roms/shared/src/ROMS/External/roms_canyon3d.in . `
+
 `cp /srv/ckpt/roms/shared/src/ROMS/Include/canyon.h .`
 
 To make sure the diagnostic and averaged data are output by the model, you should add 3 lines in canyon.h:
 
 `# define AVERAGES `
+
 `# define DIAGNOSTICS_TS`
+
 `# define DIAGNOSTICS_UV`
 
 After running the case following the tutorial, the results will be saved as netcdf files. Two files **roms_avg.nc** and **roms_dia.nc** are needed by the ROMS_VORT package. 
