@@ -32,46 +32,77 @@ The 3D depth-dependent vorticity is obtained by taking curl directly on the 3D m
 
 Terms in the equation are (I) accelaration term (**acce_curl_3d**), (II) **nonlinear** term , (III) **divergence** term, and (IV) **viscous stress** term. 
 
-## Tutorial of the ROMS_VORT package for a built-in test case in ROMS (canyon3d)
+## Tutorial for built-in test cases in ROMS
 
 ### 1. Idealized canyon case (3d)
 
 The idealized canyon case is an idealized test of the interaction between topography and a near-steady current. This case is a suitable case to test the vorticity budget. 
 
-(1) You should first run the idealized canyon (3d) with the following steps:
+#### (1) You should first run the idealized canyon (3d) with the following steps:
 
-####  (1) Download and install ROMS 
-step by step with the tutorial [ROMS_UNSW2008](https://www.myroms.org/wiki/ROMS_UNSW2008). After running the upwelling case by following the tutorial, the results will be saved as netcdf files.
+##### (a) Download and install ROMS 
 
-You can also simply download the nc files we have obtained at [upwelling results](https://figshare.com/account/projects/81329/articles/12375272).
+download and compile the code step by step following the tutorial [ROMS_UNSW2008](https://www.myroms.org/wiki/ROMS_UNSW2008). Please note that, instead of making upwelling directory, you may want to make "canyon" directory by 
 
-(2) Download the ROMS_VORT package at [github](https://github.com/rayliuxh/pv_balance.git) by run the script 
-`git clone https://github.com/rayliuxh/pv_balance.git pv_balance` 
-or download directly.
+`mkdir canyon`
 
-(3) There are 2 Matlab scripts in the ROMS_VORT folder. Run `get_circu_pattern_pub.m` to load the ocean state variables and make some plots. Run `get_pv_conservation_pub.m` to calculate the **three** different forms of the vorticity equations and do some plots. The detailed information of the variables in the script can be found in the above description.  
+`cd canyon`
 
+You may want to change "upwelling" to "canyon" at the following lines in the **build.bash** file:
 
+`export ROMS_APPLICATION=canyon
 
-(1) 
+export MY_PROJECT_DIR=${HOME}/Projects/canyon`
 
-### 1. Upwelling case
+`export ROMS_APPLICATION=canyon
+export MY_PROJECT_DIR=${MY_ROOT_DIR}/Projects/canyon`
+
+##### (b) Run the canyon3d case 
+
+You may want to copy roms_canyon3d.in and canyon.h to "canyon" directory by :
+
+`cp /srv/ckpt/roms/shared/src/ROMS/External/roms_canyon3d.in . 
+cp /srv/ckpt/roms/shared/src/ROMS/Include/canyon.h .`
+
+To make sure the diagnostic and averaged data are output by the model, you should add 3 lines in canyon.h:
+
+`# define AVERAGES `
+
+`# define DIAGNOSTICS_TS`
+
+`# define DIAGNOSTICS_UV`
+
+After running the case following the tutorial, the results will be saved as netcdf files. Two files **roms_avg.nc** and **roms_dia.nc** are needed by the ROMS_VORT package. 
+
+You can also simply download the nc files we have obtained at google drive [roms_avg.nc](https://drive.google.com/file/d/184_44DfY5xAnnYeN-2ax08YjedkCXBmc/view?usp=sharing) and [roms_dia.nc](https://drive.google.com/file/d/1CCpAlb97a_yGF19HJ1nxE-ur7-NQBeXY/view?usp=sharing) OR at baidu disk [roms_avg.nc](https://pan.baidu.com/s/1Qjkjy9H0aBYg6z9HlWGzzQ) (code: 365x) and [roms_dia.nc](https://pan.baidu.com/s/1L8LGVGjJqbDdUrXcoaErTg) (code: g8qy).
+
+##### (c) Download the ROMS_VORT package 
+
+You can get the both Matlab and Python scripts at [github](https://github.com/rayliuxh/ROMS_VORT.git) by run the script 
+`git clone https://github.com/rayliuxh/ROMS_VORT.git ROMS_VORT` 
+or download the repository directly at the website.
+
+##### (d) Calculate the vorticity balances 
+
+If you prefer **Matlab**:
+
+There are 2 Matlab scripts in the ROMS_VORT folder. Run `get_circu_pattern_pub.m` to load the ocean state variables and make some plots. Run `get_pv_conservation_pub.m` to calculate the **three** different forms of the vorticity equations and do some plots. The detailed information of the variables in the script can be found in the above description.  
+
+If you prefer **Python**:
+
+You can find a py script containing the calculating functions of the vorticity budget and a notebook that giving a demo calculation of the 3 forms of vorticity equations. You could first change the path of the nc files at the beginning of roms_vort.py and then run the **user_interface_roms_vort.ipynb** to get each term of the vorticity balances. 
+
+### 2. Upwelling case
 
 The Upwelling case is the default test case in ROMS. If you are not familiar with the compiling and running procedures of ROMS model, you can start from this case and then apply the ROMS_VORT package. Follow the following steps:
 
 (1) Download and install ROMS step by step with the tutorial [ROMS_UNSW2008](https://www.myroms.org/wiki/ROMS_UNSW2008). After running the upwelling case by following the tutorial, the results will be saved as netcdf files. You can also simply download the nc files we have obtained at [upwelling results](https://figshare.com/account/projects/81329/articles/12375272).
 
-(2) Download the ROMS_VORT package at [github](https://github.com/rayliuxh/pv_balance.git) by run the script 
-`git clone https://github.com/rayliuxh/pv_balance.git pv_balance` 
-or download directly.
+(2) you could then apply the ROMS_VORT package to the results of the upwelling case. 
 
-(3) There are 2 Matlab scripts in the ROMS_VORT folder. Run `get_circu_pattern_pub.m` to load the ocean state variables and make some plots. Run `get_pv_conservation_pub.m` to calculate the **three** different forms of the vorticity equations and do some plots. The detailed information of the variables in the script can be found in the above description.  
+### 3. Real topography case
 
-### 2. Idealized canyon case (3d)
-
-The idealized canyon case is more appropriate to test the vorticity budget when a current flowing over a topography. Run the idealized canyon (3d) case and then apply the ROMS_VORT tool. 
-
-(1) 
+Liu et al. (2020) has applied the package to the problem of on-shelf intrusions of the Kuroshio northeast of Taiwan. If you have are interested in that work. Please contact Xiaohui Liu (xh_liu@sio.org.cn) for more details. 
 
 ## References:
 
