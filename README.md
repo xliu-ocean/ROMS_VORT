@@ -88,7 +88,7 @@ There are 2 Matlab scripts in the ROMS_VORT folder. Run `get_circu_pattern_pub.m
 
 If you prefer **Python**:
 
-You can find a py script containing the calculating functions of the vorticity budget and a notebook that giving a demo calculation of the 3 forms of vorticity equations. You could first change the path of the nc files at the beginning of roms_vort.py and then run the **user_interface_roms_vort.ipynb** to get each term of the vorticity balances. 
+You can find a py script containing the calculating functions of the vorticity budget and a notebook that giving a demo calculation of the 3 forms of vorticity equations. You could first change the path of the nc files at the beginning of **roms_vort.py** and then run the **user_interface_roms_vort.ipynb** to get each term of the vorticity balances. 
 
 ### 2. Upwelling case
 
